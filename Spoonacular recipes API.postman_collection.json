@@ -1,0 +1,463 @@
+{
+	"info": {
+		"_postman_id": "6c2bd961-d954-433f-bc4d-23990e3ddcf9",
+		"name": "Spoonacular recipes API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Search Recipes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// check the active environment",
+							"pm.test(\"Active environment is Testing\", function() {",
+							"  pm.expect(pm.environment.name).to.eql(\"Test Environment\");",
+							"});",
+							"",
+							"pm.test(\"Active environment is Prod\", function() {",
+							"  pm.expect(pm.environment.name).to.eql(\"Production\");",
+							"});",
+							"",
+							"",
+							"",
+							"// GET query environment testing part",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(300);",
+							"});",
+							"",
+							"",
+							"",
+							"// header tests",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.be.header(\"Content-Type\", \"application/json\");",
+							"});",
+							"",
+							"pm.test(\"Connection type is keep-alive\", function () {",
+							"    pm.response.to.be.header(\"Connection\", \"keep-alive\");",
+							"});",
+							"",
+							"",
+							"",
+							"// JSON response testing part",
+							"const responseJSON = pm.response.json();",
+							"",
+							"pm.test(\"Data types of response are good\", function() {",
+							"    pm.expect(responseJSON.number).to.be.a(\"number\");",
+							"    pm.expect(responseJSON.offset).to.be.a(\"number\");",
+							"    pm.expect(responseJSON.totalResults).to.be.a(\"number\");",
+							"    pm.expect(responseJSON.results).to.be.an(\"array\");",
+							"    pm.expect(responseJSON.results[0].id).to.be.a(\"number\");",
+							"    pm.expect(responseJSON.results[0].title).to.be.a(\"string\");    ",
+							"    pm.expect(responseJSON.results[0].image).to.be.a(\"string\");",
+							"    pm.expect(responseJSON.results[0].imageType).to.be.a(\"string\");",
+							"})",
+							"",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Berry Banana Breakfast Smoothie\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has all default properties good\", function(){",
+							"    pm.expect(responseJSON.offset).to.eql(0);",
+							"    pm.expect(responseJSON.number).to.eql(10);",
+							"    pm.collectionVariables.set(\"number\", responseJSON.number);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Array size in response is right as in query\", function(){",
+							"    pm.expect(responseJSON.results.length).to.eql(pm.collectionVariables.get(\"number\"));",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/recipes/complexSearch?cuisine=Cucumber",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"recipes",
+						"complexSearch"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "burger",
+							"description": "The (natural language) search query.",
+							"disabled": true
+						},
+						{
+							"key": "cuisine",
+							"value": "Cucumber",
+							"description": "The cuisine(s) of the recipes. One or more, comma separated (will be interpreted as 'OR'). See a full list of supported cuisines."
+						}
+					]
+				},
+				"description": "Search through hundreds of thousands of recipes using advanced filtering and ranking. NOTE: This method combines searching by query, by ingredients, and by nutrients into one endpoint."
+			},
+			"response": []
+		},
+		{
+			"name": "Classify Cuisine",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "0",
+							"value": "t"
+						},
+						{
+							"key": "1",
+							"value": "i"
+						},
+						{
+							"key": "2",
+							"value": "t"
+						},
+						{
+							"key": "3",
+							"value": "l"
+						},
+						{
+							"key": "4",
+							"value": "e"
+						},
+						{
+							"key": "5",
+							"value": "="
+						},
+						{
+							"key": "6",
+							"value": "P"
+						},
+						{
+							"key": "7",
+							"value": "o"
+						},
+						{
+							"key": "8",
+							"value": "r"
+						},
+						{
+							"key": "9",
+							"value": "k"
+						},
+						{
+							"key": "10",
+							"value": " "
+						},
+						{
+							"key": "11",
+							"value": "r"
+						},
+						{
+							"key": "12",
+							"value": "o"
+						},
+						{
+							"key": "13",
+							"value": "a"
+						},
+						{
+							"key": "14",
+							"value": "s"
+						},
+						{
+							"key": "15",
+							"value": "t"
+						},
+						{
+							"key": "16",
+							"value": " "
+						},
+						{
+							"key": "17",
+							"value": "w"
+						},
+						{
+							"key": "18",
+							"value": "i"
+						},
+						{
+							"key": "19",
+							"value": "t"
+						},
+						{
+							"key": "20",
+							"value": "h"
+						},
+						{
+							"key": "21",
+							"value": " "
+						},
+						{
+							"key": "22",
+							"value": "g"
+						},
+						{
+							"key": "23",
+							"value": "r"
+						},
+						{
+							"key": "24",
+							"value": "e"
+						},
+						{
+							"key": "25",
+							"value": "e"
+						},
+						{
+							"key": "26",
+							"value": "n"
+						},
+						{
+							"key": "27",
+							"value": " "
+						},
+						{
+							"key": "28",
+							"value": "b"
+						},
+						{
+							"key": "29",
+							"value": "e"
+						},
+						{
+							"key": "30",
+							"value": "a"
+						},
+						{
+							"key": "31",
+							"value": "n"
+						},
+						{
+							"key": "32",
+							"value": "s"
+						},
+						{
+							"key": "33",
+							"value": "&"
+						},
+						{
+							"key": "34",
+							"value": "i"
+						},
+						{
+							"key": "35",
+							"value": "n"
+						},
+						{
+							"key": "36",
+							"value": "g"
+						},
+						{
+							"key": "37",
+							"value": "r"
+						},
+						{
+							"key": "38",
+							"value": "e"
+						},
+						{
+							"key": "39",
+							"value": "d"
+						},
+						{
+							"key": "40",
+							"value": "i"
+						},
+						{
+							"key": "41",
+							"value": "e"
+						},
+						{
+							"key": "42",
+							"value": "n"
+						},
+						{
+							"key": "43",
+							"value": "t"
+						},
+						{
+							"key": "44",
+							"value": "L"
+						},
+						{
+							"key": "45",
+							"value": "i"
+						},
+						{
+							"key": "46",
+							"value": "s"
+						},
+						{
+							"key": "47",
+							"value": "t"
+						},
+						{
+							"key": "48",
+							"value": "="
+						},
+						{
+							"key": "49",
+							"value": "3"
+						},
+						{
+							"key": "50",
+							"value": " "
+						},
+						{
+							"key": "51",
+							"value": "o"
+						},
+						{
+							"key": "52",
+							"value": "z"
+						},
+						{
+							"key": "53",
+							"value": " "
+						},
+						{
+							"key": "54",
+							"value": "p"
+						},
+						{
+							"key": "55",
+							"value": "o"
+						},
+						{
+							"key": "56",
+							"value": "r"
+						},
+						{
+							"key": "57",
+							"value": "k"
+						},
+						{
+							"key": "58",
+							"value": " "
+						},
+						{
+							"key": "59",
+							"value": "s"
+						},
+						{
+							"key": "60",
+							"value": "h"
+						},
+						{
+							"key": "61",
+							"value": "o"
+						},
+						{
+							"key": "62",
+							"value": "u"
+						},
+						{
+							"key": "63",
+							"value": "l"
+						},
+						{
+							"key": "64",
+							"value": "d"
+						},
+						{
+							"key": "65",
+							"value": "e"
+						},
+						{
+							"key": "66",
+							"value": "r"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/recipes/cuisine",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"recipes",
+						"cuisine"
+					]
+				},
+				"description": "Classify the recipe's cuisine."
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{api-key}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "apiKey",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "query",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "number",
+			"value": ""
+		}
+	]
+}
